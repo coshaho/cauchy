@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 /**
  * FP树：仅考虑算法
  * @author coshaho
- * @since 2020/1/5a
+ * @since 2020/1/5
  */
 public class FPTree {
     // FP树根节点
