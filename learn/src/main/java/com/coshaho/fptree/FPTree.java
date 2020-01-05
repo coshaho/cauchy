@@ -1,23 +1,26 @@
 package com.coshaho.fptree;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * FP树
+ * FP树：仅考虑算法
  * @Author coshaho
+ * @Date 2020/1/5
  */
 public class FPTree {
     // FP树根节点
-    FPNode root = new FPNode("root", -1);
+    FPNode root = new FPNode("Root", -1);
     // FP树节点线索头
     Map<String, FPNode> firstNodeTable = new HashMap<>();
     // FP树节点线索尾
     Map<String, FPNode> lastNodeTable = new HashMap<>();
+    // 支持度
+    private int support = 1;
 
-    public FPTree(List<List<String>> data) {
+    public FPTree(List<List<String>> data, int support) {
+        this.support = support;
+        data = sort(data);
         // line为一行日志
         for(List<String> line : data) {
             FPNode curNode = root;
@@ -50,15 +53,40 @@ public class FPTree {
         }
     }
 
+    private List<List<String>> sort(List<List<String>> data) {
+        Map<String, Integer> wordCount = new HashMap<>();
+        // 统计单词出现的次数
+        for(List<String> line : data) {
+            for(String word : line) {
+                if(wordCount.containsKey(word)) {
+                    wordCount.put(word, wordCount.get(word) + 1);
+                } else {
+                    wordCount.put(word, 1);
+                }
+            }
+        }
+
+        List<List<String>> result = new ArrayList<>();
+        // 单词排序
+        for(List<String> line : data) {
+            List<String> newLine = line.stream().filter(word -> wordCount.get(word) >= support)
+                    .sorted(Comparator.comparing(word -> wordCount.get(word)).reversed()).collect(Collectors.toList());
+            if(null != newLine && 0 != newLine.size()) {
+                result.add(newLine);
+            }
+        }
+        return result;
+    }
+
     public void print() {
         root.print(0);
     }
 
     public static void main(String[] args) {
         List<String> line1 = new ArrayList<>();
+        line1.add("C");
         line1.add("A");
         line1.add("B");
-        line1.add("C");
         List<String> line2 = new ArrayList<>();
         line2.add("A");
         line2.add("B");
@@ -75,8 +103,7 @@ public class FPTree {
         data.add(line3);
         data.add(line4);
 
-        FPTree tree = new FPTree(data);
+        FPTree tree = new FPTree(data, 1);
         tree.print();
     }
-
 }

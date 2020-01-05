@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * FP树节点
+ * FP树节点：仅考虑算法
  * @Author coshaho
+ * @Date 2020/1/5
  */
 public class FPNode {
     // 单词
@@ -38,7 +39,7 @@ public class FPNode {
                 System.out.print("  ");
             }
         }
-        System.out.println(word + ":" + count);
+        System.out.println(word + ": " + count);
         for(FPNode child : children.values()) {
             child.print(n + 1);
         }
