@@ -14,7 +14,7 @@ public class FPNode {
     // 单词出现次数
     private int count = 1;
     // 子节点
-    Map<String, FPNode> children = new HashMap<>();
+    private Map<String, FPNode> children = new HashMap<>();
     // 父节点
     private FPNode father;
     // 线索：指向下一个相同单词节点
@@ -27,8 +27,8 @@ public class FPNode {
         this.count = count;
     }
 
-    public void increase() {
-        count++;
+    public void increase(int i) {
+        count += i;
     }
 
     public void print(int n) {

@@ -28,4 +28,8 @@ public class LogTemplate {
     public void setCount(int count) {
         this.count = count;
     }
+
+    public void print() {
+        System.out.println(words + ": " + count);
+    }
 }
